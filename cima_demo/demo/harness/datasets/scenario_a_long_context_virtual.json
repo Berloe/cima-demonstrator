@@ -1,0 +1,156 @@
+{
+  "scenario_id": "A_LONG_CONTEXT_VIRTUAL",
+  "title": "Long-context virtual under bounded window",
+  "description": "The corpus is far larger than the effective window; the demonstrator must select and reconstruct only the relevant context.",
+  "window_tokens": 60,
+  "query": "What exact integration decision finalizes the public rename to CIMA Demonstrator after removing the legacy compatibility layer?",
+  "resume_query": null,
+  "llm": {
+    "need_proposal": {
+      "needs_zoom": true,
+      "zoom_markers": [
+        "S1",
+        "S2"
+      ],
+      "needs_zoom_out": true,
+      "focus": "final public rename strategy",
+      "reason": "Need the direct compatibility rule and the broader rename rationale."
+    },
+    "memory_proposal": {
+      "cited_markers": [
+        "S1",
+        "S2",
+        "P1"
+      ],
+      "conclusions": [
+        {
+          "kind": "DECISION",
+          "content": "Use cima_demo as the canonical public slug with no legacy compatibility layer.",
+          "confidence": 0.95
+        }
+      ]
+    },
+    "answer": "The demonstrator finalizes the rename by exposing CIMA Demonstrator with cima_demo as the canonical slug and no legacy compatibility layer. [S1] [S2] [P1]"
+  },
+  "documents": [
+    {
+      "doc_id": "doc-a-01",
+      "title": "Rename strategy note",
+      "text": "The migration note states that the project must be publicly renamed to CIMA Demonstrator. The canonical public slug becomes cima_demo. The final state removes the legacy compatibility layer so the active runtime exposes only the new public identity. This note also repeats that the rename must not disturb the demo runtime. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler. extra filler extra filler extra filler extra filler extra filler extra filler extra filler extra filler extra filler extra filler"
+    },
+    {
+      "doc_id": "doc-a-02",
+      "title": "Compatibility appendix",
+      "text": "The demonstrator removes the legacy kima package surface and presents only cima_demo as the active public identity. The objective is to keep the visible surface coherent and unambiguous. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-03",
+      "title": "Streaming note",
+      "text": "Streaming must remain clean in demo mode. Only user and assistant text should be visible to the client. Heartbeats may remain, but reasoning traces, THOUGHT events, TOOL_RESULT events, and PLAN_STEP traces are internal only. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-04",
+      "title": "Lineage note",
+      "text": "Lineage must be durable. Answer lineage is rooted in a context snapshot and must resolve to summaries, C-items and source spans. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-05",
+      "title": "Context authority",
+      "text": "CIMA must not be treated as a macro-tool. The demonstrator must give primary authority to ContextView, memory, zoom, zoom_out and handoff. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-06",
+      "title": "Architecture background",
+      "text": "The broader architecture document discusses frontier runtimes, tools and orchestration. Those topics are out of scope for the reference demonstrator except where they provide reusable infrastructure. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-07",
+      "title": "Budget policy",
+      "text": "Select must obey a bounded budget. The runtime is required to construct a context view under budget rather than injecting the whole corpus into the model window. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-08",
+      "title": "Handoff placeholder",
+      "text": "The handoff capability is separate from the rename strategy. It allows continuity between runs once a proper manifest exists. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-09",
+      "title": "Noise document 1",
+      "text": "This document discusses unrelated browser automation and workspace cleanup. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-10",
+      "title": "Noise document 2",
+      "text": "This document discusses optional telemetry and metrics exporters. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-11",
+      "title": "Noise document 3",
+      "text": "This document discusses container base images and package caches. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    },
+    {
+      "doc_id": "doc-a-12",
+      "title": "Noise document 4",
+      "text": "This document discusses non-essential training loops and genetics. filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler."
+    }
+  ],
+  "citems": [
+    {
+      "citem_id": "a-c1",
+      "content": "The public project name becomes CIMA Demonstrator and the canonical slug becomes cima_demo.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-a-01",
+      "dependencies": []
+    },
+    {
+      "citem_id": "a-c2",
+      "content": "The active runtime exposes only cima_demo as the public identity and removes the legacy compatibility layer.",
+      "item_type": "DECISION",
+      "source_doc_id": "doc-a-02",
+      "dependencies": [
+        "a-c1"
+      ]
+    },
+    {
+      "citem_id": "a-c3",
+      "content": "The transcript visible to the client must remain clean in demo mode.",
+      "item_type": "CONSTRAINT",
+      "source_doc_id": "doc-a-03",
+      "dependencies": []
+    },
+    {
+      "citem_id": "a-c4",
+      "content": "Context selection must respect budget instead of injecting the whole corpus.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-a-07",
+      "dependencies": []
+    }
+  ],
+  "summaries": [
+    {
+      "summary_id": "a-s1",
+      "level": 2,
+      "content": "The rename ends with a single public surface: CIMA Demonstrator via the cima_demo slug only.",
+      "origin_citem_ids": [
+        "a-c1",
+        "a-c2"
+      ]
+    }
+  ],
+  "expectations": {
+    "answer_contains": [
+      "CIMA Demonstrator",
+      "cima_demo",
+      "no legacy compatibility layer"
+    ],
+    "required_markers": [
+      "S1",
+      "S2",
+      "P1"
+    ],
+    "min_evidence_coverage": 1.0,
+    "requires_handoff": false,
+    "requires_zoom": true,
+    "requires_zoom_out": true
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "scenario_id": "E_HELD_OUT_BOUNDARY",
+  "title": "Held-out boundary scenario under the same artifact discipline",
+  "description": "A held-out scenario outside the original A-D set that still runs under the same artifact and acceptance discipline.",
+  "window_tokens": 84,
+  "query": "What integration boundary keeps geometry independent in v1 while still letting CIMA consume structural signals?",
+  "resume_query": null,
+  "llm": {
+    "need_proposal": {
+      "needs_zoom": true,
+      "zoom_markers": [
+        "S1",
+        "S2"
+      ],
+      "needs_zoom_out": false,
+      "focus": "geometry boundary",
+      "reason": "Need the held-out boundary rule plus the read-side consumption path."
+    },
+    "memory_proposal": {
+      "cited_markers": [
+        "S1",
+        "S2",
+        "P1"
+      ],
+      "conclusions": [
+        {
+          "kind": "DECISION",
+          "content": "Geometry stays independent in v1 and CIMA consumes its structural signals via Kafka and Qdrant or read models rather than runtime RPC.",
+          "confidence": 0.94
+        }
+      ]
+    },
+    "answer": "The held-out boundary keeps geometry as a separate service while CIMA consumes structural signals through Kafka updates and Qdrant or read-model state, not runtime RPC. [S1] [S2] [P1]"
+  },
+  "documents": [
+    {
+      "doc_id": "doc-e-01",
+      "title": "Geometry boundary decision",
+      "text": "Geometry is a separate service in v1. It does not own turn control or context assembly. Its responsibility is limited to structural signals such as core items, bridge candidates and cluster state."
+    },
+    {
+      "doc_id": "doc-e-02",
+      "title": "Consumption path note",
+      "text": "CIMA consumes geometry through Kafka-fed read models and Qdrant payload flags. Runtime assembly must not depend on synchronous RPC into the geometry service."
+    },
+    {
+      "doc_id": "doc-e-03",
+      "title": "Noise document",
+      "text": "This note discusses container images, package caches and unrelated deployment trivia that should not affect the held-out boundary answer. filler filler filler filler filler filler filler filler."
+    }
+  ],
+  "citems": [
+    {
+      "citem_id": "e-c1",
+      "content": "Geometry remains a separate service and does not own turn control or context assembly.",
+      "item_type": "DECISION",
+      "source_doc_id": "doc-e-01",
+      "dependencies": []
+    },
+    {
+      "citem_id": "e-c2",
+      "content": "CIMA consumes geometry through Kafka-fed read models and Qdrant payload flags instead of runtime RPC.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-e-02",
+      "dependencies": [
+        "e-c1"
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "summary_id": "e-s1",
+      "level": 2,
+      "content": "The v1 boundary keeps geometry independent while exposing structural signals to CIMA through asynchronous and read-side channels.",
+      "origin_citem_ids": [
+        "e-c1",
+        "e-c2"
+      ]
+    }
+  ],
+  "expectations": {
+    "answer_contains": [
+      "separate service",
+      "Kafka",
+      "not runtime RPC"
+    ],
+    "required_markers": [
+      "S1",
+      "S2",
+      "P1"
+    ],
+    "min_evidence_coverage": 1.0,
+    "requires_handoff": false,
+    "requires_zoom": true,
+    "requires_zoom_out": false
+  }
+}

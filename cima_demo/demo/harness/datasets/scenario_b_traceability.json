@@ -1,0 +1,87 @@
+{
+  "scenario_id": "B_TRACEABILITY",
+  "title": "Traceability from answer to source span",
+  "description": "A response must resolve through context snapshot, summary resolution, C-items and source spans.",
+  "window_tokens": 80,
+  "query": "Which two properties make the demonstrator auditable according to the evidence chain?",
+  "resume_query": null,
+  "llm": {
+    "need_proposal": {
+      "needs_zoom": true,
+      "zoom_markers": ["S1", "S2"],
+      "needs_zoom_out": false,
+      "focus": "auditable evidence chain",
+      "reason": "Need the concrete lineage and summary rules."
+    },
+    "memory_proposal": {
+      "cited_markers": ["S1", "S2"],
+      "conclusions": [
+        {
+          "kind": "FACT",
+          "content": "Auditable context requires durable lineage and rehydratable source spans.",
+          "confidence": 0.9
+        }
+      ]
+    },
+    "answer": "The demonstrator is auditable because answers are rooted in durable lineage and because every relevant selection can be rehydrated down to concrete source spans. [S1] [S2]"
+  },
+  "documents": [
+    {
+      "doc_id": "doc-b-01",
+      "title": "Lineage specification",
+      "text": "A response is auditable only if the system can show the path from the answer to the selected context, from selected context to summaries and C-items, and from those units to the originating source spans."
+    },
+    {
+      "doc_id": "doc-b-02",
+      "title": "Source span rule",
+      "text": "Traceability is not narrative. The runtime must persist source spans and lineage edges so that a marker can be followed back to evidence."
+    },
+    {
+      "doc_id": "doc-b-03",
+      "title": "Summary rule",
+      "text": "Summaries remain traceable because every summary resolution preserves origin_citem_ids and those C-items retain provenance to sources and spans."
+    }
+  ],
+  "citems": [
+    {
+      "citem_id": "b-c1",
+      "content": "Answers must be rooted in durable lineage from answer to context snapshot to summaries or C-items.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-b-01",
+      "dependencies": []
+    },
+    {
+      "citem_id": "b-c2",
+      "content": "Markers must resolve to rehydratable source spans rather than narrative claims.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-b-02",
+      "dependencies": []
+    },
+    {
+      "citem_id": "b-c3",
+      "content": "Summary resolutions preserve origin_citem_ids for traceability.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-b-03",
+      "dependencies": ["b-c1", "b-c2"]
+    }
+  ],
+  "summaries": [
+    {
+      "summary_id": "b-s1",
+      "level": 2,
+      "content": "Auditability depends on lineage plus rehydratable evidence.",
+      "origin_citem_ids": ["b-c1", "b-c2", "b-c3"]
+    }
+  ],
+  "expectations": {
+    "answer_contains": [
+      "durable lineage",
+      "source spans"
+    ],
+    "required_markers": ["S1", "S2"],
+    "min_evidence_coverage": 1.0,
+    "requires_handoff": false,
+    "requires_zoom": true,
+    "requires_zoom_out": false
+  }
+}

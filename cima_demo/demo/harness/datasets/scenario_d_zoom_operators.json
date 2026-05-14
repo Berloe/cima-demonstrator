@@ -1,0 +1,88 @@
+{
+  "scenario_id": "D_ZOOM_OPERATORS",
+  "title": "Zoom-in and zoom-out as real context operators",
+  "description": "The demonstrator must move down to evidence and back up to perspective using explicit context operators.",
+  "window_tokens": 72,
+  "query": "Show the concrete evidence and the higher-level perspective for the final public rename strategy.",
+  "resume_query": null,
+  "llm": {
+    "need_proposal": {
+      "needs_zoom": true,
+      "zoom_markers": [
+        "S1"
+      ],
+      "needs_zoom_out": true,
+      "focus": "evidence plus perspective",
+      "reason": "Need one concrete fact and one high-level summary."
+    },
+    "memory_proposal": {
+      "cited_markers": [
+        "S1",
+        "P1"
+      ],
+      "conclusions": [
+        {
+          "kind": "NOTE",
+          "content": "The demonstrator can navigate between detailed evidence and high-level perspective.",
+          "confidence": 0.88
+        }
+      ]
+    },
+    "answer": "The concrete evidence is that only cima_demo remains as the active public identity, and the higher-level perspective is that the public surface stays coherent while migration risk remains bounded. [S1] [P1]"
+  },
+  "documents": [
+    {
+      "doc_id": "doc-d-01",
+      "title": "Concrete rename decision",
+      "text": "The detailed evidence is that only cima_demo remains as the active package and public identity."
+    },
+    {
+      "doc_id": "doc-d-02",
+      "title": "Higher-level perspective",
+      "text": "The broader perspective is that the public surface becomes coherent while migration risk remains bounded."
+    }
+  ],
+  "citems": [
+    {
+      "citem_id": "d-c1",
+      "content": "Only cima_demo remains as the active public identity after the cleanup.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-d-01",
+      "dependencies": []
+    },
+    {
+      "citem_id": "d-c2",
+      "content": "The broader objective is a coherent public surface with bounded migration risk.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-d-02",
+      "dependencies": [
+        "d-c1"
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "summary_id": "d-s1",
+      "level": 2,
+      "content": "The cleanup leaves a single coherent public surface while preserving bounded migration risk.",
+      "origin_citem_ids": [
+        "d-c1",
+        "d-c2"
+      ]
+    }
+  ],
+  "expectations": {
+    "answer_contains": [
+      "active public identity",
+      "public surface"
+    ],
+    "required_markers": [
+      "S1",
+      "P1"
+    ],
+    "min_evidence_coverage": 1.0,
+    "requires_handoff": false,
+    "requires_zoom": true,
+    "requires_zoom_out": true
+  }
+}

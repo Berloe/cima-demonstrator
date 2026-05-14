@@ -1,0 +1,114 @@
+[tool.poetry]
+name = "cima_demo"
+version = "0.1.0"
+description = "CIMA Demonstrator — executable memory-and-context demonstrator for LLM systems"
+authors = ["Alberto Fuentes <alberto.fuentes@independent>"]
+readme = "README.md"
+packages = [{ include = "cima_demo" }]
+
+[tool.poetry.scripts]
+cima_demo = "main:main"
+cima_demo_harness = "cima_demo.demo.harness.scenario_runner:main"
+cima_demo_geometry = "cima_demo.geometry.service_main:main"
+cima_demo_outbox_publisher = "cima_demo.witness_backend.publisher_main:main"
+cima_demo_geom_projector = "cima_demo.witness_backend.projector_main:main"
+cima_demo_gc_worker = "cima_demo.witness_backend.gc_worker_main:main"
+cima_demo_source_worker = "cima_demo.witness_backend.source_worker_main:main"
+cima_demo_semantic_worker = "cima_demo.witness_backend.semantic_worker_main:main"
+cima_demo_summary_worker = "cima_demo.witness_backend.summary_worker_main:main"
+cima_demo_global_worker = "cima_demo.witness_backend.global_worker_main:main"
+cima_demo_open_download = "cima_demo.demo.open_scenarios.download:main"
+cima_demo_open_normalize = "cima_demo.demo.open_scenarios.normalize:main"
+cima_demo_open_execute = "cima_demo.demo.open_scenarios.execute:main"
+cima_demo_publication_audit = "cima_demo.demo.publication.audit:main"
+cima_demo_external_sources = "cima_demo.demo.open_scenarios.external_sources:main"
+cima_demo_external_casegen = "cima_demo.demo.open_scenarios.external_casegen:main"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+# ── API ──────────────────────────────────────────────────────────────────────
+fastapi          = "^0.115"
+uvicorn          = { version = "^0.32", extras = ["standard"] }
+python-multipart = "^0.0.12"      # multipart/form-data (file uploads)
+pydantic         = "^2.10"
+pydantic-settings = "^2.6"        # BaseSettings para configuración por env vars
+
+# ── PostgreSQL ───────────────────────────────────────────────────────────────
+asyncpg          = "^0.30"
+
+# ── Qdrant + sparse vectors ──────────────────────────────────────────────────
+qdrant-client    = { version = "^1.12", extras = ["fastembed"] }
+# fastembed se instala transitivamente via qdrant-client[fastembed]
+# incluye: fastembed>=0.4, torch (CPU), onnxruntime — BM25 via Qdrant/bm25 model
+
+# ── HTTP clients (TEI embed, TEI reranker, llama.cpp, SearXNG) ───────────────
+httpx            = "^0.28"
+
+# ── Kafka (Fase 2 — incluido desde Fase 1 para wiring condicional) ────────────
+aiokafka         = "^0.11"
+
+# ── Procesamiento de ficheros ─────────────────────────────────────────────────
+pypdf            = "^5.1"         # PDF text extraction
+python-docx      = "^1.1"         # DOCX text extraction
+openpyxl         = "^3.1"         # XLSX/Excel spreadsheet extraction
+Pillow           = "^11.0"        # Image loading for OCR (FFT-01)
+pytesseract      = { version = "^0.3", optional = true }  # OCR (requires system Tesseract)
+
+# ── Templating ───────────────────────────────────────────────────────────────
+jinja2           = "^3.1"         # system prompt rendering (system_prompt.j2)
+
+# ── Observability ─────────────────────────────────────────────────────────────
+prometheus-client = "^0.21"       # Prometheus metrics server on port 8001
+opentelemetry-sdk = ">=1.20"      # OTEL tracing core
+opentelemetry-exporter-otlp-proto-grpc = ">=1.20"  # gRPC export to OTEL gateway
+opentelemetry-instrumentation-fastapi  = ">=0.40b0" # HTTP request spans
+opentelemetry-instrumentation-httpx    = ">=0.40b0" # outbound HTTP spans (TEI, llama.cpp)
+
+# ── workspace_exec scientific sandbox ────────────────────────────────────────
+# Pre-installed at image build time; never installed at runtime.
+# Expand _WORKSPACE_ALLOWED_IMPORTS in builtin_tools.py when adding here.
+numpy            = ">=1.26"
+pandas           = "^2.2"
+scipy            = "^1.13"
+sympy            = "^1.13"
+biopython        = "^1.84"
+networkx         = "^3.3"
+
+# ── Utilidades ────────────────────────────────────────────────────────────────
+python-dotenv    = "^1.0"         # .env local (dev)
+
+[tool.poetry.extras]
+ocr     = ["pytesseract"]
+
+[tool.poetry.group.dev.dependencies]
+pytest           = "^8.3"
+pytest-asyncio   = "^0.24"
+httpx            = "^0.28"        # TestClient de FastAPI + AsyncClient de test
+anyio            = { version = "^4.6", extras = ["trio"] }   # backend para pytest-asyncio
+ruff             = "^0.8"         # linter + formatter
+mypy             = "^1.13"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths    = ["tests"]
+filterwarnings = [
+    'ignore:Please use `import python_multipart` instead\.:PendingDeprecationWarning',
+]
+
+[tool.ruff]
+line-length    = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501", "B008"]
+
+[tool.mypy]
+python_version         = "3.12"
+strict                 = true
+ignore_missing_imports = true
+
+[build-system]
+requires      = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

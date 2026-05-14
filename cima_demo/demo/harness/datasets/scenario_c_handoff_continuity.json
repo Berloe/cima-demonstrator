@@ -1,0 +1,111 @@
+{
+  "scenario_id": "C_HANDOFF_CONTINUITY",
+  "title": "Portable handoff and continuation",
+  "description": "A task is paused, exported as a handoff, restored into a new run and continued without replaying the full transcript.",
+  "window_tokens": 96,
+  "query": "What is the current state of the migration task before handoff?",
+  "resume_query": "Continue after restore: what remains to finish the migration safely?",
+  "llm": {
+    "need_proposal": {
+      "needs_zoom": true,
+      "zoom_markers": [
+        "S1",
+        "S2"
+      ],
+      "needs_zoom_out": true,
+      "focus": "migration state before handoff",
+      "reason": "Need current task state and remaining work."
+    },
+    "memory_proposal": {
+      "cited_markers": [
+        "S1",
+        "S2",
+        "P1"
+      ],
+      "conclusions": [
+        {
+          "kind": "DECISION",
+          "content": "The handoff must preserve task state, active objective and evidence coverage.",
+          "confidence": 0.92
+        }
+      ]
+    },
+    "answer": "Before handoff, the migration has already renamed the public surface to CIMA Demonstrator, and the current task state still needs to preserve compatibility through restore-aware continuation. [S1] [S2] [P1]",
+    "resume_answer": "After restore, the remaining work is to continue from the preserved task state instead of rebuilding the reasoning from the visible transcript. [S1] [P1]"
+  },
+  "documents": [
+    {
+      "doc_id": "doc-c-01",
+      "title": "Task state note",
+      "text": "The current migration task has renamed the public project surface and recorded the active objective in task state."
+    },
+    {
+      "doc_id": "doc-c-02",
+      "title": "Handoff rule",
+      "text": "A valid handoff must preserve task memory, evidence references and enough context to continue without replaying the visible transcript."
+    },
+    {
+      "doc_id": "doc-c-03",
+      "title": "Resume note",
+      "text": "The resumed run should continue from the restored state and complete the remaining compatibility work."
+    }
+  ],
+  "citems": [
+    {
+      "citem_id": "c-c1",
+      "content": "The public surface has already been renamed to CIMA Demonstrator.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-c-01",
+      "dependencies": []
+    },
+    {
+      "citem_id": "c-c2",
+      "content": "A valid handoff preserves task state and evidence references.",
+      "item_type": "DECISION",
+      "source_doc_id": "doc-c-02",
+      "dependencies": [
+        "c-c1"
+      ]
+    },
+    {
+      "citem_id": "c-c3",
+      "content": "After restore, the run should continue compatibility work without replaying the visible transcript.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-c-03",
+      "dependencies": [
+        "c-c2"
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "summary_id": "c-s1",
+      "level": 2,
+      "content": "The migration is partly complete and continuation depends on preserved task state.",
+      "origin_citem_ids": [
+        "c-c1",
+        "c-c2",
+        "c-c3"
+      ]
+    }
+  ],
+  "expectations": {
+    "answer_contains": [
+      "CIMA Demonstrator",
+      "task state"
+    ],
+    "resume_contains": [
+      "continue from the preserved task state",
+      "visible transcript"
+    ],
+    "required_markers": [
+      "S1",
+      "S2",
+      "P1"
+    ],
+    "min_evidence_coverage": 0.8,
+    "requires_handoff": true,
+    "requires_zoom": true,
+    "requires_zoom_out": true
+  }
+}

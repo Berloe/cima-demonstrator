@@ -1,0 +1,85 @@
+{
+  "scenario_id": "F_NEGATIVE_CONFLICT",
+  "title": "Negative scenario with conflicting evidence and safe degradation",
+  "description": "The answer must acknowledge conflict or insufficiency instead of overclaiming when the provided evidence disagrees.",
+  "window_tokens": 84,
+  "query": "Does the geometry service expose business endpoints in v1? Answer only if the evidence is decisive.",
+  "resume_query": null,
+  "llm": {
+    "need_proposal": {
+      "needs_zoom": true,
+      "zoom_markers": ["S1", "S2"],
+      "needs_zoom_out": false,
+      "focus": "conflicting boundary evidence",
+      "reason": "Need to inspect the conflicting sources before answering safely."
+    },
+    "memory_proposal": {
+      "cited_markers": ["S1", "S2"],
+      "conclusions": [
+        {
+          "kind": "EVALUATION",
+          "content": "The current evidence is conflicting, so the safe answer is to abstain from a definitive claim about business endpoints.",
+          "confidence": 0.9
+        }
+      ]
+    },
+    "answer": "The provided evidence is conflicting, so there is not enough evidence to state a definitive business-endpoint design for geometry in v1. One source proposes an admin API while another forbids business endpoints, so the safe answer is to abstain. [S1] [S2]"
+  },
+  "documents": [
+    {
+      "doc_id": "doc-f-01",
+      "title": "Admin API proposal",
+      "text": "One design note proposes that the geometry service may expose an admin HTTP API for inspection and recompute. It treats that API as an optional but useful debug surface."
+    },
+    {
+      "doc_id": "doc-f-02",
+      "title": "No-business-endpoints decision",
+      "text": "Another decision note states that geometry should have no business endpoints in v1 and should communicate only through Kafka, Qdrant payloads and read models."
+    },
+    {
+      "doc_id": "doc-f-03",
+      "title": "Unrelated noise",
+      "text": "This unrelated note discusses CSS cleanup and dashboard colors. filler filler filler filler filler filler filler filler filler filler filler."
+    }
+  ],
+  "citems": [
+    {
+      "citem_id": "f-c1",
+      "content": "A design note proposes an optional admin HTTP API for geometry inspection and recompute.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-f-01",
+      "dependencies": []
+    },
+    {
+      "citem_id": "f-c2",
+      "content": "A different decision note forbids business endpoints for geometry in v1 and prefers Kafka plus read-side integration.",
+      "item_type": "FACT",
+      "source_doc_id": "doc-f-02",
+      "dependencies": []
+    }
+  ],
+  "summaries": [
+    {
+      "summary_id": "f-s1",
+      "level": 2,
+      "content": "The boundary evidence conflicts: one note proposes an admin API while another forbids business endpoints in v1.",
+      "origin_citem_ids": ["f-c1", "f-c2"]
+    }
+  ],
+  "expectations": {
+    "answer_contains": [
+      "conflicting",
+      "not enough evidence",
+      "abstain"
+    ],
+    "forbidden_answer_contains": [
+      "the geometry service definitely exposes business endpoints",
+      "the geometry service definitely has no endpoints"
+    ],
+    "required_markers": ["S1", "S2"],
+    "min_evidence_coverage": 1.0,
+    "requires_handoff": false,
+    "requires_zoom": true,
+    "requires_zoom_out": false
+  }
+}

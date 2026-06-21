@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20139206.svg)](https://doi.org/10.5281/zenodo.20139206)
 
-CIMA is a memory-and-context architecture for systems that use language models as bounded-context inference engines. Its central property is that every published answer either cites markers that resolve to specific source spans in stored memory, or declares a traceable abstention when evidence is insufficient. The literal source text is always retained, so any abstraction is lossless in the sense that the underlying evidence is always recoverable.
+CIMA is a memory-and-context architecture for systems that use language models as bounded-context inference engines. Its central property is a publication and traceability contract: every published factual block must cite admissible markers that resolve to specific source spans in stored memory, or the answer must declare a traceable abstention when evidence is insufficient. The literal source text is always retained, so any abstraction is lossless in the operational sense that the underlying evidence remains recoverable. This contract governs traceability and publication integrity; it is not a semantic entailment or factual-correctness guarantee.
 
 This repository contains the CIMA Demonstrator: a runnable Python implementation of the CIMA-core architecture with a full evaluation harness.
 
@@ -15,16 +15,21 @@ This repository contains the CIMA Demonstrator: a runnable Python implementation
 pip install poetry
 poetry install
 
-# 2. Configure your OpenAI key
-cp .env.example .env
-# Edit .env and set CIMA_DEMO_OPENAI_API_KEY=sk-...
-
-# 3. Start the server (standalone mode — no external services required)
+# 2. Start the server (standalone CI profile — no external services or API key required)
 ./scripts/run_demo.sh
 # Health check: curl http://localhost:8000/health
 ```
 
-The server runs in **standalone mode** using in-memory stores. No Postgres, Qdrant, or TEI required.
+The default standalone server uses in-memory stores and a deterministic rule backend. No Postgres, Qdrant, TEI, llama.cpp, or hosted LLM API is required for a smoke test.
+
+To run the same standalone server with a hosted OpenAI-compatible model:
+
+```bash
+cp .env.example .env
+# Edit .env and set CIMA_DEMO_STANDALONE_LLM_BACKEND=openai
+# Set CIMA_DEMO_OPENAI_API_KEY=sk-...
+./scripts/run_demo.sh
+```
 
 ---
 
@@ -37,7 +42,10 @@ The published evidence package (230 cases, GPT-4o) is at the Zenodo DOI above. T
 python -m cima_demo.demo.open_scenarios.download
 python -m cima_demo.demo.open_scenarios.normalize
 
-# 2. Start the server in a separate terminal
+# 2. Start the server in a separate terminal using the public-eval profile
+CIMA_DEMO_STANDALONE_LLM_BACKEND=openai \
+CIMA_DEMO_LLM_PROVIDER=openai \
+CIMA_DEMO_LLM_MODEL=gpt-4o \
 ./scripts/run_demo.sh
 
 # 3. Run the evaluation (4 datasets, GPT-4o, 6k token budget)
@@ -130,19 +138,21 @@ scripts/
 
 ## Configuration
 
-All settings use the `CIMA_DEMO_` prefix and can be set via environment variables or a `.env` file. See `.env.example` for the full list.
+All public settings use the `CIMA_DEMO_` prefix and can be set via environment variables or a `.env` file. See `.env.example` for the full list.
 
 | Variable | Default | Description |
 |---|---|---|
-| `CIMA_DEMO_OPENAI_API_KEY` | — | OpenAI API key |
 | `CIMA_DEMO_RUNTIME_MODE` | `standalone` | `standalone` (in-memory) or `full` (Postgres+Qdrant) |
-| `CIMA_DEMO_LLM_PROVIDER` | `llamacpp` | `openai` or `llamacpp` |
-| `CIMA_DEMO_LLM_MODEL` | `mistral` | Model ID |
+| `CIMA_DEMO_STANDALONE_LLM_BACKEND` | `rule` | Standalone backend: `rule`, `openai`, or `llamacpp` |
+| `CIMA_DEMO_OPENAI_API_KEY` | — | Required only when using the `openai` backend |
+| `CIMA_DEMO_LLM_PROVIDER` | `llamacpp` | Full-runtime LLM provider: `openai` or `llamacpp` |
+| `CIMA_DEMO_LLM_MODEL` | `mistral` | Model ID used by the selected real LLM backend |
 | `CIMA_DEMO_PORT` | `8000` | Server port |
 
 For a local llama.cpp backend:
 
 ```bash
+export CIMA_DEMO_STANDALONE_LLM_BACKEND=llamacpp
 export CIMA_DEMO_LLM_PROVIDER=llamacpp
 export CIMA_DEMO_LLM_URL=http://localhost:8080
 export CIMA_DEMO_LLM_MODEL=mistral

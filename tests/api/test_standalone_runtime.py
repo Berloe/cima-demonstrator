@@ -115,8 +115,8 @@ def test_context_route_rejects_deleting_conversation(monkeypatch, tmp_path: Path
         assert body["detail"]["code"] == "CONVERSATION_DELETING"
 
 
-def test_run_demo_local_script_exists_and_is_executable():
-    script = Path(__file__).resolve().parents[2] / "scripts" / "run_demo_local.sh"
+def test_run_demo_script_exists_and_is_executable():
+    script = Path(__file__).resolve().parents[2] / "scripts" / "run_demo.sh"
     assert script.exists()
     assert script.stat().st_mode & 0o111
 

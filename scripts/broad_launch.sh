@@ -4,7 +4,7 @@
 #
 # Prerequisites:
 #   1. OKD port-forwards active:  ./scripts/port_forward_okd.sh &
-#   2. CIMA API running:          PYTHONPATH=. ./scripts/run_demo_local.sh &
+#   2. CIMA API running:          PYTHONPATH=. ./scripts/run_demo.sh &
 #   3. llama-server on :8080      (started separately)
 #
 # Usage:

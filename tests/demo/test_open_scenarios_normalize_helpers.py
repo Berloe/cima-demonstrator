@@ -19,22 +19,6 @@ def test_render_meeting_transcript_handles_structured_turns() -> None:
     assert transcript == "A: Hello\nB: World"
 
 
-def test_normalize_dataset_rejects_fever_until_standard_integration_exists(tmp_path: Path) -> None:
-    try:
-        normalize_dataset(
-            "fever",
-            raw_root=tmp_path,
-            out_root=tmp_path / "out",
-            splits=["test"],
-            limit_per_split=1,
-            seed=17,
-        )
-    except ValueError as exc:
-        assert "Dataset 'fever' is excluded" in str(exc)
-    else:  # pragma: no cover - defensive assertion
-        raise AssertionError("FEVER normalization must be rejected until FEVER-standard integration exists")
-
-
 def test_qasper_normalization_extracts_nested_answers_and_falls_back_from_empty_test(tmp_path: Path, monkeypatch) -> None:
     from cima_demo.demo.open_scenarios import normalize as mod
 

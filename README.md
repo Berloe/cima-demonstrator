@@ -2,9 +2,42 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20139206.svg)](https://doi.org/10.5281/zenodo.20139206)
 
-CIMA is a memory-and-context architecture for systems that use language models as bounded-context inference engines. Its central property is a publication and traceability contract: every published factual block must cite admissible markers that resolve to specific source spans in stored memory, or the answer must declare a traceable abstention when evidence is insufficient. The literal source text is always retained, so any abstraction is lossless in the operational sense that the underlying evidence remains recoverable. This contract governs traceability and publication integrity; it is not a semantic entailment or factual-correctness guarantee.
+CIMA is a specification and demonstrator for governed memory and verifiable context construction in LLM-based systems. It separates stored memory from active context, represents selected context as an auditable ContextView, preserves lineage from context markers to source spans, and constrains publication through a gate that requires prompt-visible evidence markers or traceable abstention.
 
-This repository contains the CIMA Demonstrator: a runnable Python implementation of the CIMA-core architecture with a full evaluation harness.
+This repository contains the CIMA Demonstrator: a runnable Python implementation of the CIMA-core architecture with a full evaluation harness. The published evidence package is archived at [doi.org/10.5281/zenodo.20139206](https://doi.org/10.5281/zenodo.20139206).
+
+---
+
+## What CIMA is
+
+CIMA is intended to specify and test structural governance properties for LLM memory/context pipelines:
+
+- governed memory items with lineage to evidence;
+- budget-bounded ContextView construction;
+- prompt-visible evidence markers;
+- marker resolution to stored source spans;
+- publication gating for cited factual output or traceable abstention;
+- Zoom and L1 Zoom-out operations with recoverable evidence;
+- run-level cleanup in the published demonstrator profile.
+
+The literal source text is retained so that abstractions remain evidence-recoverable: a summary or selected context item can be traced back to its underlying evidence. This does not mean that compressed abstractions are semantically lossless, nor that cited evidence entails every generated claim.
+
+## What CIMA is not
+
+CIMA is not an autonomous agent runtime, a planning framework, a general RAG system, a vector database, a tool-use platform, a benchmark of reasoning, or a factuality verifier. The demonstrator evaluates structural publication and lineage guarantees; it does not claim to improve intrinsic model reasoning, outperform RAG baselines on factual accuracy, guarantee semantic entailment, or solve persistent-memory security in full.
+
+---
+
+## Demonstrated profile and non-claims
+
+The published evaluation profile covers 230 open-scenario runs using GPT-4o and a 6k token ContextView budget. Within that profile, the evidence package reports passing structural checks for bounded context construction, prompt-visible citation markers, marker resolution, publication integrity, Zoom, L1 Zoom-out, and run-level cleanup.
+
+The current public demonstrator should not be read as empirical evidence for full multi-turn TaskMemory, global memory promotion/demotion, complete lifecycle governance, semantic claim-evidence entailment, adversarial memory-poisoning resistance, or legal/regulatory compliance.
+
+For a precise boundary between specified, implemented, and demonstrated behavior, see:
+
+- [`docs/publication/cima_coverage_matrix.md`](docs/publication/cima_coverage_matrix.md)
+- [`docs/publication/cima_claim_ledger.md`](docs/publication/cima_claim_ledger.md)
 
 ---
 
@@ -166,13 +199,16 @@ export CIMA_DEMO_LLM_TIMEOUT=3600
 
 ```bibtex
 @misc{fuentes2026cima,
-  title  = {{CIMA}: Bounded, Traceable, and Navigable Memory for Language Model Systems},
-  author = {Fuentes, Alberto},
-  year   = {2026},
-  doi    = {10.5281/zenodo.20139206},
-  url    = {https://doi.org/10.5281/zenodo.20139206}
+  title     = {{CIMA}: A Specification for Governed Memory and Verifiable Context Construction in LLM Systems},
+  author    = {Fuentes, Alberto},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.20139206},
+  url       = {https://doi.org/10.5281/zenodo.20139206}
 }
 ```
+
+See also [`CITATION.cff`](CITATION.cff).
 
 ---
 

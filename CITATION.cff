@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use CIMA, please cite the archived Zenodo record."
+title: "CIMA: A Specification for Governed Memory and Verifiable Context Construction in LLM Systems"
+type: software
+authors:
+  - family-names: "Fuentes"
+    given-names: "Alberto"
+year: 2026
+doi: "10.5281/zenodo.20139206"
+url: "https://doi.org/10.5281/zenodo.20139206"
+repository-code: "https://github.com/Berloe/cima-demonstrator"
+version: "v1.0-rc2"
+license: "MIT"
+abstract: >-
+  CIMA is a specification and demonstrator for governed memory and verifiable
+  context construction in LLM-based systems. It separates stored memory from
+  active context, preserves lineage from context markers to source spans, and
+  constrains publication through prompt-visible evidence markers or traceable
+  abstention. The published demonstrator evaluates structural lineage and
+  publication properties; it does not claim semantic entailment, factuality
+  guarantees, or complete agent-runtime functionality.
+keywords:
+  - LLM memory
+  - context engineering
+  - provenance
+  - auditability
+  - traceability
+  - governed memory

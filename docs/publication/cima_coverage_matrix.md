@@ -6,7 +6,7 @@ This matrix separates three different statuses that must not be conflated:
 - **Implemented**: the public demonstrator contains an implementation path for the behavior.
 - **Demonstrated in the published profile**: the archived evidence package directly exercises the behavior in the published evaluation profile.
 
-The published profile referenced here is the Zenodo-archived CIMA package associated with DOI `10.5281/zenodo.20139206`.
+The published profile referenced here is the Zenodo-archived CIMA v1.0-rc2 package associated with version DOI `10.5281/zenodo.20465483`. The all-versions concept DOI is `10.5281/zenodo.20139205`.
 
 | CIMA capability | Specified | Implemented in demonstrator | Demonstrated in published profile | Evidence boundary |
 |---|---:|---:|---:|---|

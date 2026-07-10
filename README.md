@@ -1,10 +1,10 @@
 # CIMA — Contextual Item Memory Architecture
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20139206.svg)](https://doi.org/10.5281/zenodo.20139206)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20139205.svg)](https://doi.org/10.5281/zenodo.20139205)
 
 CIMA is a specification and demonstrator for governed memory and verifiable context construction in LLM-based systems. It separates stored memory from active context, represents selected context as an auditable ContextView, preserves lineage from context markers to source spans, and constrains publication through a gate that requires prompt-visible evidence markers or traceable abstention.
 
-This repository contains the CIMA Demonstrator: a runnable Python implementation of the CIMA-core architecture with a full evaluation harness. The published evidence package is archived at [doi.org/10.5281/zenodo.20139206](https://doi.org/10.5281/zenodo.20139206).
+This repository contains the CIMA Demonstrator: a runnable Python implementation of the CIMA-core architecture with a full evaluation harness. The published v1.0-rc2 evidence package is archived at the version DOI [doi.org/10.5281/zenodo.20465483](https://doi.org/10.5281/zenodo.20465483). The all-versions Zenodo concept DOI is [doi.org/10.5281/zenodo.20139205](https://doi.org/10.5281/zenodo.20139205).
 
 ---
 
@@ -68,7 +68,7 @@ cp .env.example .env
 
 ## Reproduce the published evaluation
 
-The published evidence package (230 cases, GPT-4o) is at the Zenodo DOI above. To reproduce from scratch:
+The published v1.0-rc2 evidence package is archived at the Zenodo version DOI listed in the Citation section. To reproduce from scratch:
 
 ```bash
 # 1. Download and normalize datasets
@@ -142,7 +142,7 @@ Published answer  [S1][S4] …  or  [INSUFFICIENT_EVIDENCE]
 ◁── Zoom: any marker resolves to its literal source span ──▷
 ```
 
-Full architecture diagram and paper: [doi.org/10.5281/zenodo.20139206](https://doi.org/10.5281/zenodo.20139206)
+Full architecture diagram and paper: [doi.org/10.5281/zenodo.20465483](https://doi.org/10.5281/zenodo.20465483)
 
 ---
 
@@ -197,14 +197,23 @@ export CIMA_DEMO_LLM_TIMEOUT=3600
 
 ## Citation
 
+Version-specific DOI for CIMA v1.0-rc2:
+
+<https://doi.org/10.5281/zenodo.20465483>
+
+All-versions concept DOI:
+
+<https://doi.org/10.5281/zenodo.20139205>
+
 ```bibtex
-@misc{fuentes2026cima,
-  title     = {{CIMA}: A Specification for Governed Memory and Verifiable Context Construction in LLM Systems},
+@misc{fuentes2026cima_rc2,
+  title     = {{CIMA}: Bounded, Traceable, and Navigable Memory for Language Model Systems},
   author    = {Fuentes, Alberto},
   year      = {2026},
+  version   = {1.0-rc2},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.20139206},
-  url       = {https://doi.org/10.5281/zenodo.20139206}
+  doi       = {10.5281/zenodo.20465483},
+  url       = {https://doi.org/10.5281/zenodo.20465483}
 }
 ```
 
